@@ -5,14 +5,15 @@ class Song
     @name = name
   end
 
+  def artist_name=(artist_name)
+     Artist.find_or_create_by_name(artist_name).add_song(self)
+  end
 
 
-
-  def self.new_by_filename(filename)
-      file = filename.split(" - ")
-      song = self.new
-      song.artist_name = file[0]
-      song.name = file[1][0..-5]
+  def self.new_by_filename(file_name)
+      artist_name, song_name = file_name.chomp(".mp3").split(" - ")
+      song = self.new(song_name)
+      song.artist_name = artist_name
       return song
     end
 
